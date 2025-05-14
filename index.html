@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plano B Home Cook</title>
+  <style>
+    :root {
+      --gold: #D4AF37;
+      --black: #0A0A0A;
+      --white: #FFFFFF;
+      --dark-gray: #1A1A1A;
+      --light-gray: #333333;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Playfair Display', serif;
+    }
+    
+    body {
+      background-color: var(--black);
+      color: var(--white);
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Header */
+    header {
+      padding: 30px 0;
+      text-align: center;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+    }
+    
+    .logo-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .logo {
+      font-size: 3.5rem;
+      font-weight: 300;
+      letter-spacing: 8px;
+      color: var(--gold);
+      margin-bottom: 5px;
+    }
+    
+    .sublogo {
+      font-size: 1.2rem;
+      letter-spacing: 4px;
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+    }
+    
+    /* Navigation */
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--gold);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    nav {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    
+    .nav-links {
+      display: flex;
+      list-style: none;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .nav-links li {
+      margin: 0 15px;
+    }
+    
+    .nav-links a {
+      color: var(--white);
+      text-decoration: none;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 5px 0;
+      position: relative;
+      transition: color 0.3s;
+      font-family: 'Montserrat', sans-serif;
+    }
+    
+    .nav-links a:hover {
+      color: var(--gold);
+    }
+    
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 1px;
+      bottom: 0;
+      left: 0;
+      background-color: var(--gold);
+      transition: width 0.3s;
+    }
+    
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+    
+    /* Sections */
+    section {
+      padding: 80px 0;
+      position: relative;
+    }
+    
+    .section-title {
+      font-size: 2.5rem;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 60px;
+      font-weight: 400;
+      position: relative;
+      letter-spacing: 3px;
+    }
+    
+    .section-title::after {
+      content: '';
+      position: absolute;
+      width: 60px;
+      height: 2px;
+      background-color: var(--gold);
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    /* Quote */
+    .quote {
+      font-style: italic;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto 60px;
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    
+    /* Menu Grid */
+    .menu-container {
+      position: relative;
+    }
+    
+    .menu-tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 50px;
+      flex-wrap: wrap;
+    }
+    
+    .menu-tab {
+      background: transparent;
+      color: var(--white);
+      border: none;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+      padding: 10px 25px;
+      margin: 0 5px 10px;
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-transform: uppercase;
+      font-family: 'Montserrat', sans-serif;
+    }
+    
+    .menu-tab:hover {
+      color: var(--gold);
+    }
+    
+    .menu-tab.active {
+      color: var(--gold);
+      border-bottom: 2px solid var(--gold);
+    }
+    
+    .menu-content {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    
+    .menu-content.active {
+      display: block;
+      opacity: 1;
+    }
+    
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 30px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.8s forwards;
+    }
+    
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .menu-item {
+      background-color: var(--dark-gray);
+      padding: 30px;
+      border-bottom: 1px solid var(--gold);
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .menu-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(to right, rgba(212, 175, 55, 0.05), transparent);
+      transition: width 0.6s;
+      z-index: 0;
+    }
+    
+    .menu-item:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .menu-item:hover::before {
+      width: 100%;
+    }
+    
+    .menu-item-content {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .menu-title {
+      color: var(--gold);
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+    
+    .menu-description {
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    
+    .menu-price {
+      color: var(--gold);
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      font-family: 'Montserrat', sans-serif;
+    }
+    
+    .menu-list {
+      list-style: none;
+      margin: 20px 0;
+    }
+    
+    .menu-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: flex-start;
+    }
+    
+    .menu-list li:last-child {
+      border-bottom: none;
+    }
+    
+    .menu-list h4 {
+      color: var(--gold);
+      margin-bottom: 5px;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+    
+    .menu-list p {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    
+    /* Wine List */
+    .wine-category {
+      margin-bottom: 60px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.8s forwards;
+    }
+    
+    .wine-category h3 {
+      color: var(--gold);
+      font-size: 1.6rem;
+      margin-bottom: 30px;
+      font-weight: 400;
+      letter-spacing: 2px;
+      text-align: center;
+    }
+    
+    .wine-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    
+    .wine-item {
+      background-color: var(--dark-gray);
+      padding: 20px;
+      border-left: 2px solid var(--gold);
+      transition: transform 0.3s;
+    }
+    
+    .wine-item:hover {
+      transform: translateX(10px);
+    }
+    
+    .wine-name {
+      color: var(--white);
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+    
+    .wine-region {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.9rem;
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    
+    .wine-description {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+    
+    .wine-price {
+      color: var(--gold);
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    
+    /* Footer */
+    footer {
+      padding: 60px 0 30px;
+      text-align: center;
+      border-top: 1px solid rgba(212, 175, 55, 0.3);
+    }
+    
+    .footer-logo {
+      font-size: 2rem;
+      color: var(--gold);
+      letter-spacing: 5px;
+      margin-bottom: 10px;
+      font-weight: 300;
+    }
+    
+    .footer-sublogo {
+      font-size: 0.9rem;
+      letter-spacing: 3px;
+      color: var(--white);
+      margin-bottom: 30px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+    }
+    
+    .contact-info {
+      margin: 20px 0;
+      font-family: 'Montserrat', sans-serif;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.9rem;
+    }
+    
+    .contact-info a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+    
+    .video-container {
+      max-width: 800px;
+      margin: 60px auto 0;
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+      height: 0;
+      overflow: hidden;
+    }
+    
+    .video-container iframe,
+    .video-container img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    
+    .copyright {
+      margin-top: 30px;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: 'Montserrat', sans-serif;
+    }
+    
+    /* Decorative Elements */
+    .gold-divider {
+      width: 40px;
+      height: 2px;
+      background-color: var(--gold);
+      margin: 0 auto 40px;
+    }
+    
+    .accent-circle {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border: 1px solid rgba(212, 175, 55, 0.1);
+      border-radius: 50%;
+      z-index: -1;
+    }
+    
+    .circle-1 {
+      top: 10%;
+      left: -150px;
+    }
+    
+    .circle-2 {
+      bottom: 10%;
+      right: -150px;
+    }
+    
+    /* Responsive Design */
+    @media screen and (max-width: 768px) {
+      .logo {
+        font-size: 2.5rem;
+      }
+      
+      .sublogo {
+        font-size: 1rem;
+      }
+      
+      .menu-toggle {
+        display: block;
+        position: absolute;
+        top: 30px;
+        right: 20px;
+      }
+      
+      nav {
+        margin-top: 0;
+      }
+      
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        background-color: var(--black);
+        left: 0;
+        padding: 20px 0;
+        z-index: 100;
+        border-bottom: 1px solid var(--gold);
+      }
+      
+      .nav-links.active {
+        display: flex;
+      }
+      
+      .nav-links li {
+        margin: 10px 0;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+      
+      .menu-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .wine-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    @media screen and (max-width: 480px) {
+      .logo {
+        font-size: 2rem;
+      }
+      
+      .section-title {
+        font-size: 1.8rem;
+      }
+      
+      .menu-item {
+        padding: 20px;
+      }
+      
+      .menu-title {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo-container">
+        <h1 class="logo">PLANO B</h1>
+        <p class="sublogo">HOME COOK</p>
+      </div>
+      
+      <button class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+      </button>
+      
+      <nav>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#menus-completos">Menus Completos</a></li>
+          <li><a href="#entradas">Entradas</a></li>
+          <li><a href="#doces">Doces</a></li>
+          <li><a href="#bolos">Bolos</a></li>
+          <li><a href="#vinhos">Carta de Vinhos</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  
+  <main>
+    <section id="intro">
+      <div class="container">
+        <p class="quote">"Uma experiência gastronómica exclusiva no conforto do seu lar"</p>
+        <div class="gold-divider"></div>
+      </div>
+      <div class="accent-circle circle-1"></div>
+    </section>
+    
+    <section id="menus-completos">
+      <div class="container">
+        <h2 class="section-title">MENUS COMPLETOS</h2>
+        
+        <div class="menu-grid">
+          <div class="menu-item">
+            <div class="menu-item-content">
+              <h3 class="menu-title">Menu 1</h3>
+              <ul class="menu-list">
+                <li>
+                  <div>
+                    <h4>Entrada</h4>
+                    <p>Trilogia de alheira com molho de mostarda e mel</p>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <h4>Prato Principal</h4>
+                    <p>Tagine (Cuscuz com carne e legumes estufados)</p>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <h4>Sobremesa</h4>
+                    <p>Pavlova com creme de mascarpone e frutos vermelhos</p>
+                  </div>
+                </li>
+              </ul>
+              <p class="menu-price">26.50€ por pessoa</p>
+            </div>
+          </div>
+          
+          <div class="menu-item">
+            <div class="menu-item-content">
+              <h3 class="menu-title">Menu 2</h3>
+              <ul class="menu-list">
+                <li>
+                  <div>
+                    <h4>Entrada</h4>
+                    <p>Bagel de cogumelos salteados</p>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <h4>Prato Principal</h4>
+                    <p>Bife da Vazia com bacon e arroz de grelos</p>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <h4>Sobremesa</h4>
+                    <p>Bolo de chocolate, banana e amendoins caramelizados, pipoca e marshmallow</p>
+                  </div>
+                </li>
+              </ul>
+              <p class="menu-price">32€ por pessoa</p>
+            </div>
+          </div>
+          
+          <div class="menu-item">
+            <div class="menu-item-content">
+              <h3 class="menu-title">Menu 3</h3>
+              <ul class="menu-list">
+                <li>
+                  <div>
+                    <h4>Entrada</h4>
+                    <p>Sopa de Peixe</p>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <h4>Prato Principal</h4>
+                    <p>Bacalhau com broa</p>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <h4>Sobremesa</h4>
+                    <p>Tarte de lima, côco tostado, ananás e hortelã</p>
+                  </div>
+                </li>
+              </ul>
+              <p class="menu-price">32€ por pessoa</p>
+            </div>
+          </div>
+          
+          <div class="menu-item">
+            <div class="menu-item-content">
+              <h3 class="menu-title">Menu 4</h3>
+              <ul class="menu-list">
+                <li>
+                  <div>
+                    <h4>Entrada</h4>
+                    <p>Mini bruschetta tomate, azeite de alho e manjericão e mini pães de alho</p>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <h4>Prato Principal</h4>
+                    <p>Spaguetti nero com camarão</p>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <h4>Sobremesa</h4>
+                    <p>Eclair de côco e maracujá</p>
+                  </div>
+                </li>
+              </ul>
+              <p class="menu-price">28€ por pessoa</p>
+            </div>
+          </div>
+          
+          <div class="menu-item">
+            <div class="menu-item-content">
+              <h3 class="menu-title">Menu 5</h3>
+              <ul class="menu-list">
+                <li>
+                  <div>
+                    <h4>Entrada</h4>
+                    <p>Desconstrução de estufado de lulas</p>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <h4>Prato Principal</h4>
+                    <p>Arroz de forno de gambas e chouriço</p>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <h4>Sobremesa</h4>
+                    <p>Cheesecake de iogurte grego com maçã e caramelo salgado</p>
+                  </div>
+                </li>
+              </ul>
+              <p class="menu-price">30€ por pessoa</p>
+            </div>
+          </div>
+          
+          <div class="menu-item">
+            <div class="menu-item-content">
+              <h3 class="menu-title">Menu 6</h3>
+              <ul class="menu-list">
+                <li>
+                  <div>
+                    <h4>Entrada</h4>
+                    <p>Tosta de camarão salteado com guacamole</p>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <h4>Prato Principal</h4>
+                    <p>Cordon-Bleu guarnecido com estufado de ervilhas e ovos escalfados</p>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <h4>Sobremesa</h4>
+                    <p>"Musgos" mini troncos de chocolate e fava tonka, cacau, choux de pistáchio, cogumelos de cereja</p>
+                  </div>
+                </li>
+              </ul>
+              <p class="menu-price">32€ por pessoa</p>
+            </div>
+          </div>
+          
+          <div class="menu-item">
+            <div class="menu-item-content">
+              <h3 class="menu-title">Menu 7</h3>
+              <ul class="menu-list">
+                <li>
+                  <div>
+                    <h4>Entrada</h4>
+                    <p>Mini Fish&Chips com maionese de alho</p>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <h4>Prato Principal</h4>
+                    <p>Caril de camarão/frango/vegetais com arroz Basmati</p>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <h4>Sobremesa</h4>
+                    <p>Mini tarte de baunilha e caramelo</p>
+                  </div>
+                </li>
+              </ul>
+              <p class="menu-price">30€ por pessoa</p>
+            </div>
+          </div>
+          
+          <div class="menu-item">
+            <div class="menu-item-content">
+              <h3 class="menu-title">Menu 8 (Vegetariano)</h3>
+              <ul class="menu-list">
+                <li>
+                  <div>
+                    <h4>Entrada</h4>
+                    <p>Fajitas vegetarianas</p>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <h4>Prato Principal</h4>
+                    <p>Poké Bowls (quinoa, tofu grelhado, fruta, salada e frutos secos)</p>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <h4>Sobremesa</h4>
+                    <p>Salada de frutas com hortelã</p>
+                  </div>
+                </li>
+              </ul>
+              <p class="menu-price">26€ por pessoa</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="accent-circle circle-2"></div>
+    </section>
+    
+    <section id="entradas">
+      <div class="container">
+        <h2 class="section-title">MESA DE ENTRADAS</h2>
+        
+        <div class="menu-grid">
+          <div class="menu-item">
+            <div class="menu-item-content">
+              <h3 class="menu-title">Tábua de queijos e enchidos</h3>
+              <p class="menu-description">Seleção de queijos e enchidos regionais com tostas</p>
+              <p class="menu-price">55€</p>
+            </div>
+          </div>
+          
+          <div class="menu-item">
+            <div class="menu-item-content">
+              <h3 class="menu-title">Chilli</h3>
+              <p class="menu-description">Chilli tradicional, ligeiramente picante</p>
+              <p class="menu-price">8€/dose (2 pessoas)</p>
+            </div>
+          </div>
+          
+          <div class="menu-item">
+            <div class="menu-item-content">
+              <h3 class="menu-title">Sandes de Halloumi</h3>
+              <p class="menu-description">Pão artesanal com queijo halloumi grelhado</p>
+              <p class="menu-price">3.50€/unidade</p>
+            </div>
+          </div>
+          
+          <div class="menu-item">
+            <div class="menu-item-content">
+              <h3 class="menu-title">Tirinhas de Frango</h3>
+              <p class="menu-description">Com maionese de alho e sweet chilli</p>
+              <p class="menu-price">8€/dose (4 pessoas)</p>
+            </div>
+          </div>
+          
+          <div class="menu-item">
+            <div class="menu-item-content">
+              <h3 class="menu-title">Pataniscas de Camarão</h3>
+              <p class="menu-description">Pataniscas crocantes de camarão</p>
+              <p class="menu-price">8€/dose (2 pessoas)</p>
+            </div>
+          </div>
+          
+          <div class="menu-item">
+            <div class="menu-item-content">
+              <h3 class="menu-title">Salada de Bacalhau com Grão</h3>
+              <p class="menu-description">Bacalhau desfiado, grão-de-bico e ervas aromáticas</p>
+              <p class="menu-price">12€/dose (2 pessoas)</p>
+            </div>
+          </div>
+          
+          <div class="menu-item">
+            <div class="menu-item-content">
+              <h3 class="menu-title">Poke Bowl Vegetariana</h3>
+              <p class="menu-description">Bowl fresca com legumes e quinoa</p>
+              <p class="menu-price">7.50€/dose (2 pessoas)</p>
+            </div>
+          </div>
+          
+          <div class="menu-item">
+            <div class="menu-item-content">
+              <h3 class="menu-title">Fajita de Legumes</h3>
+              <p class="menu-description">Legumes grelhados com especiarias</p>
+              <p class="menu-price">6€/dose (2 pessoas)</p>
+            </div>
+          </div>
+          
+          <div class="menu-item">
+            <div class="menu-item-content">
+              <h3 class="menu-title">Mini Broas de Cogumelos</h3>
+              <p class="menu-description">Pastelinhos com recheio de cogumelos</p>
+              <p class="menu-price">2.50€/unidade</p>
+            </div>
+          </div>
+          
+          <div class="menu-item">
+            <div class="menu-item-content">
+              <h3 class="menu-title">Nachos com Guacamole</h3>
+              <p class="menu-description">Nachos estaladiços com guacamole fresco</p>
+              <p class="menu-price">2,60€/dose (2 pessoas) + 2€ Nachos</p>
+            </div>
+          </div>
+          
+          <div class="menu-item">
+            <div class="menu-item-content">
+              <h3 class="menu-title">Patê de Atum</h3>
+              <p class="menu-description">Patê cremoso de atum</p>
+              <p class="menu-price">3.50€/dose (2 pessoas)</p>
+            </div>
+          </div>
+          
+          <div class="menu-item">
+            <div class="menu-item-content">
+              <h3 class="menu-title">Ovos de Codorniz com Bacon</h3>
+              <p class="menu-description">Ovos de codorniz escalfados com bacon crocante</p>
+              <p class="menu-price">3,50€/dose (2 pessoas)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section id="doces">
+      <div class="container">
+        <h2 class="section-title">MESA DE DOCES</h2>
+        
+        <div class="menu-grid">
+          <div class="menu-item">
+            <div class="menu-item-content">
+              <h3 class="menu-title">Fruta Laminada</h3>
+              <p class="menu-description">Seleção de frutas frescas laminadas</p>
+              <p class="menu-price">Preço depende do tipo de fruta e quantidade</p>
+            </div>
+          </div>
+          
+          <div class="menu-item">
+            <div class="menu-item-content">
+              <h3 class="menu-title">Mini Cupcakes</h3>
+              <p class="menu-description">Sabores: Limão, Red Velvet, Baunilha, Chocolate, Ananás e Coco</p>
+              <p class="menu-price">1€/unidade (mínimo 6 de cada sabor)</p>
+            </div>
+          </div>
+          
+          <div class="menu-item">
+            <div class="menu-item-content">
+              <h3 class="menu-title">Brigadeiros Gourmet</h3>
+              <p class="menu-description">Sabores: Leite Creme, Cerelac, Chocolate Negro, Chocolate de Leite, Chocolate Branco, Coco, Churros, Limão, Morango, Oreo, Café, Amendoim, Ovomaltine e Baunilha</p>
+              <p class="menu-price">1€/unidade (mínimo 6 de cada sabor)</p>
+            </div>
+          </div>
+          
+          <div class="menu-item">
+            <div class="menu-item-content">
+              <h3 class="menu-title">Mini Pavlovas</h3>
+              <p class="menu-description">Mini pavlovas com frutos vermelhos</p>
+              <p class="menu-price">1.50€/unidade (mínimo 6 unidades)</p>
+            </div>
+          </div>
+          
+          <div class="menu-item">
+            <div class="menu-item-content">
+              <h3 class="menu-title">Verrines Variadas</h3>
+              <p class="menu-description">Sabores: Natas do céu, Mousse oreo, Cheesecake morango, Mousse manga, Lima e Hortelã, Floresta negra, Caramelo amendoim e chocolate</p>
+              <p class="menu-price">2€-2.50€/unidade (mínimo 6 de cada sabor)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section id="bolos">
+      <div class="container">
+        <h2 class="section-title">BOLOS ARTESANAIS</h2>
+        
+        <div class="menu-container">
+          <div class="menu-tabs">
+            <button class="menu-tab active" onclick="openTab(event, 'massas')">Massas</button>
+            <button class="menu-tab" onclick="openTab(event, 'recheios')">Recheios</button>
+            <button class="menu-tab" onclick="openTab(event, 'coberturas')">Coberturas</button>
+            <button class="menu-tab" onclick="openTab(event, 'decoracoes')">Decorações</button>
+          </div>
+          
+          <div id="massas" class="menu-content active">
+            <div class="menu-grid">
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Chocolate</h3>
+                  <p class="menu-description">Massa húmida e intensa de chocolate negro</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Baunilha</h3>
+                  <p class="menu-description">Massa clássica com aroma natural de baunilha</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Especiarias</h3>
+                  <p class="menu-description">Massa aromática com mistura de especiarias</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Baunilha com Pepitas de Chocolate</h3>
+                  <p class="menu-description">Massa de baunilha com pedaços de chocolate</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Limão</h3>
+                  <p class="menu-description">Massa fresca e aromática de limão</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Laranja</h3>
+                  <p class="menu-description">Massa cítrica com raspas de laranja</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Mármore</h3>
+                  <p class="menu-description">Mistura marmoreada de chocolate e baunilha</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Coco</h3>
+                  <p class="menu-description">Massa com coco ralado e leite de coco</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Red Velvet</h3>
+                  <p class="menu-description">Massa vermelho aveludado com notas de cacau</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Amêndoa</h3>
+                  <p class="menu-description">Massa rica com amêndoas moídas</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div id="recheios" class="menu-content">
+            <div class="menu-grid">
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Cream Cheese</h3>
+                  <p class="menu-description">Creme suave de queijo cremoso</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Ganache de Chocolate</h3>
+                  <p class="menu-description">Creme luxuoso de chocolate e natas</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Frutos Vermelhos</h3>
+                  <p class="menu-description">Compota caseira de frutos vermelhos variados</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Brigadeiro</h3>
+                  <p class="menu-description">Creme tradicional de brigadeiro</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Creme Baunilha</h3>
+                  <p class="menu-description">Creme de pasteleiro com baunilha</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Caramelo</h3>
+                  <p class="menu-description">Creme de caramelo salgado</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Swiss Meringue</h3>
+                  <p class="menu-description">Merengue suíço leve e cremoso</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div id="coberturas" class="menu-content">
+            <div class="menu-grid">
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Ganache de Chocolate</h3>
+                  <p class="menu-description">Cobertura brilhante de chocolate</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Swiss Meringue</h3>
+                  <p class="menu-description">Cobertura leve e elegante de merengue suíço</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Cream Cheese</h3>
+                  <p class="menu-description">Cobertura cremosa e equilibrada</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Brigadeiro</h3>
+                  <p class="menu-description">Cobertura aveludada de brigadeiro</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div id="decoracoes" class="menu-content">
+            <div class="menu-grid">
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Drip de Chocolate</h3>
+                  <p class="menu-description">Efeito de chocolate derretido escorrendo pelas laterais</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Drip de Caramelo</h3>
+                  <p class="menu-description">Efeito de caramelo escorrendo pelas laterais</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Flores Comestíveis</h3>
+                  <p class="menu-description">Flores naturais comestíveis</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Flores Frescas Decorativas</h3>
+                  <p class="menu-description">Arranjo com flores frescas (não comestíveis)</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Frutos</h3>
+                  <p class="menu-description">Decoração com frutos frescos</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Macarons</h3>
+                  <p class="menu-description">Pequenos macarons decorativos</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Pipocas Caramelizadas</h3>
+                  <p class="menu-description">Pipocas cobertas com caramelo crocante</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Marshmallows</h3>
+                  <p class="menu-description">Marshmallows torrados</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Banana Caramelizada</h3>
+                  <p class="menu-description">Fatias de banana caramelizada</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Decorações com Swiss Merengue</h3>
+                  <p class="menu-description">Padrões e texturas criadas com merengue suíço</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <p class="menu-note" style="text-align: center; margin-top: 40px; color: rgba(255,255,255,0.7);">O preço do bolo vai depender do número de pessoas e das opções escolhidas.</p>
+        </div>
+      </div>
+    </section>
+    
+    <section id="vinhos">
+      <div class="container">
+        <h2 class="section-title">CARTA DE VINHOS</h2>
+        
+        <div class="menu-container">
+          <div class="menu-tabs">
+            <button class="menu-tab active" onclick="openWineTab(event, 'tintos')">Vinhos Tintos</button>
+            <button class="menu-tab" onclick="openWineTab(event, 'brancos')">Vinhos Brancos</button>
+            <button class="menu-tab" onclick="openWineTab(event, 'espumantes')">Espumantes</button>
+            <button class="menu-tab" onclick="openWineTab(event, 'sobremesa')">Vinhos de Sobremesa</button>
+          </div>
+          
+          <div id="tintos" class="menu-content active">
+            <div class="menu-grid">
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Quinta dos Aciprestes</h3>
+                  <p class="menu-description">Douro, Portugal</p>
+                  <p class="menu-description">Vinho com aromas intensos de frutos vermelhos maduros, notas de especiarias e taninos elegantes.</p>
+                  <p class="menu-price">28€</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Casa Ferreirinha Vinha Grande</h3>
+                  <p class="menu-description">Douro, Portugal</p>
+                  <p class="menu-description">Aromas de fruta vermelha madura, com notas florais e um toque de madeira bem integrado.</p>
+                  <p class="menu-price">35€</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Herdade do Peso Trinca Bolotas</h3>
+                  <p class="menu-description">Alentejo, Portugal</p>
+                  <p class="menu-description">Sabor rico com notas de frutos silvestres, especiarias e um final longo e persistente.</p>
+                  <p class="menu-price">22€</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Quinta da Romaneira</h3>
+                  <p class="menu-description">Douro, Portugal</p>
+                  <p class="menu-description">Aromas complexos de frutas negras, chocolate e especiarias, com taninos sedosos.</p>
+                  <p class="menu-price">42€</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Quinta do Crasto Reserva</h3>
+                  <p class="menu-description">Douro, Portugal</p>
+                  <p class="menu-description">Concentrado e complexo, com notas de frutos pretos maduros e um toque de baunilha.</p>
+                  <p class="menu-price">52€</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Esporão Reserva</h3>
+                  <p class="menu-description">Alentejo, Portugal</p>
+                  <p class="menu-description">Aromas de frutos vermelhos, notas de carvalho e especiarias, com final longo e elegante.</p>
+                  <p class="menu-price">38€</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div id="brancos" class="menu-content">
+            <div class="menu-grid">
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Planalto Reserva</h3>
+                  <p class="menu-description">Douro, Portugal</p>
+                  <p class="menu-description">Fresco e mineral, com notas cítricas, fruta tropical e um final equilibrado.</p>
+                  <p class="menu-price">18€</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Quinta da Aveleda</h3>
+                  <p class="menu-description">Vinhos Verdes, Portugal</p>
+                  <p class="menu-description">Aroma jovem e fresco, com notas de maçã verde, limão e flores.</p>
+                  <p class="menu-price">15€</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Soalheiro Alvarinho</h3>
+                  <p class="menu-description">Vinhos Verdes, Portugal</p>
+                  <p class="menu-description">Perfil cítrico elegante, com notas minerais e final persistente.</p>
+                  <p class="menu-price">25€</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Esporão Reserva Branco</h3>
+                  <p class="menu-description">Alentejo, Portugal</p>
+                  <p class="menu-description">Complexo e elegante, com notas de frutos tropicais, flores brancas e um toque de carvalho.</p>
+                  <p class="menu-price">32€</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Niepoort Redoma Branco</h3>
+                  <p class="menu-description">Douro, Portugal</p>
+                  <p class="menu-description">Mineral e complexo, com notas de citrinos, frutos de caroço e um toque de madeira.</p>
+                  <p class="menu-price">45€</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Quinta dos Carvalhais Encruzado</h3>
+                  <p class="menu-description">Dão, Portugal</p>
+                  <p class="menu-description">Aroma intenso a frutos tropicais, flores brancas e um toque de baunilha.</p>
+                  <p class="menu-price">38€</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div id="espumantes" class="menu-content">
+            <div class="menu-grid">
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Murganheira Reserva Bruto</h3>
+                  <p class="menu-description">Távora-Varosa, Portugal</p>
+                  <p class="menu-description">Bolhas finas e persistentes, aromas de fruta branca, notas de brioche e um final longo.</p>
+                  <p class="menu-price">32€</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Raposeira Super Reserva</h3>
+                  <p class="menu-description">Távora-Varosa, Portugal</p>
+                  <p class="menu-description">Aromas complexos de fruta madura, com notas de tosta e uma acidez equilibrada.</p>
+                  <p class="menu-price">28€</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Luís Pato Espumante</h3>
+                  <p class="menu-description">Bairrada, Portugal</p>
+                  <p class="menu-description">Fresco e elegante, com aromas de fruta branca, maçã e um toque de leveduras.</p>
+                  <p class="menu-price">25€</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Quinta do Encontro Bruto</h3>
+                  <p class="menu-description">Bairrada, Portugal</p>
+                  <p class="menu-description">Espumante elegante com notas de maçã verde, citrinos e biscoito.</p>
+                  <p class="menu-price">22€</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div id="sobremesa" class="menu-content">
+            <div class="menu-grid">
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Porto Tawny 10 Anos</h3>
+                  <p class="menu-description">Douro, Portugal</p>
+                  <p class="menu-description">Aromas de frutos secos, passas, mel e especiarias. Equilibrado e elegante.</p>
+                  <p class="menu-price">45€</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Porto LBV</h3>
+                  <p class="menu-description">Douro, Portugal</p>
+                  <p class="menu-description">Intenso e concentrado, com notas de frutos vermelhos maduros e chocolate.</p>
+                  <p class="menu-price">35€</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Moscatel de Setúbal</h3>
+                  <p class="menu-description">Península de Setúbal, Portugal</p>
+                  <p class="menu-description">Doce e aromático, com notas de laranja, mel, flores e frutos secos.</p>
+                  <p class="menu-price">22€</p>
+                </div>
+              </div>
+              
+              <div class="menu-item">
+                <div class="menu-item-content">
+                  <h3 class="menu-title">Licoroso Abafado</h3>
+                  <p class="menu-description">Douro, Portugal</p>
+                  <p class="menu-description">Doce e aveludado, com notas de passas, figos e um toque de caramelo.</p>
+                  <p class="menu-price">28€</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+  </main>
+  
+  <footer>
+    <div class="container">
+      <h3 class="footer-logo">PLANO B</h3>
+      <p class="footer-sublogo">HOME COOK</p>
+      
+      <div class="contact-info">
+        <p>Para reservas: <a href="tel:916219295">916 219 295</a> / <a href="tel:911174988">911 174 988</a></p>
+        <p>E-mail: <a href="mailto:paulo_sergio_costa7@hotmail.com">paulo_sergio_costa7@hotmail.com</a></p>
+      </div>
+      
+      <div class="video-container">
+        <!-- Placeholder para o vídeo - substitua com o código de incorporação do vídeo real -->
+        <img src="/api/placeholder/800/450" alt="Plano B Home Cook Experience">
+      </div>
+      
+      <p class="copyright">&copy; 2025 Plano B Home Cook. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+  
+  <script>
+    // Mobile Menu Toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    
+    if (menuToggle) {
+      menuToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+      });
+    }
+    
+    // Smooth Scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+        
+        // Close mobile menu after clicking a link
+        if (navLinks.classList.contains('active')) {
+          navLinks.classList.remove('active');
+        }
+      });
+    });
+    
+    // Tab functionality for bolos section
+    function openTab(evt, tabName) {
+      const tabContent = document.getElementsByClassName("menu-content");
+      for (let i = 0; i < tabContent.length; i++) {
+        tabContent[i].classList.remove("active");
+      }
+      
+      const tabLinks = document.getElementsByClassName("menu-tab");
+      for (let i = 0; i < tabLinks.length; i++) {
+        tabLinks[i].classList.remove("active");
+      }
+      
+      document.getElementById(tabName).classList.add("active");
+      evt.currentTarget.classList.add("active");
+    }
+    
+    // Tab functionality for vinhos section
+    function openWineTab(evt, tabName) {
+      const tabContent = document.querySelectorAll("#vinhos .menu-content");
+      for (let i = 0; i < tabContent.length; i++) {
+        tabContent[i].classList.remove("active");
+      }
+      
+      const tabLinks = document.querySelectorAll("#vinhos .menu-tab");
+      for (let i = 0; i < tabLinks.length; i++) {
+        tabLinks[i].classList.remove("active");
+      }
+      
+      document.getElementById(tabName).classList.add("active");
+      evt.currentTarget.classList.add("active");
+    }
+    
+    // Animation on scroll
+    function animateOnScroll() {
+      const elements = document.querySelectorAll('.menu-grid');
+      
+      elements.forEach(element => {
+        const position = element.getBoundingClientRect();
+        
+        // If element is in viewport
+        if(position.top < window.innerHeight && position.bottom >= 0) {
+          element.style.animationDelay = '0.2s';
+          element.style.animationPlayState = 'running';
+        }
+      });
+    }
+    
+    window.addEventListener('scroll', animateOnScroll);
+    window.addEventListener('load', animateOnScroll);
+  </script>
+</body>
+</html>
