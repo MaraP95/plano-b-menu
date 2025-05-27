@@ -658,6 +658,43 @@
 .wine-contact-text strong {
   color: var(--gold);
 }
+/* Back to Top Button */
+.back-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  background: var(--black);
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  color: var(--gold);
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.back-to-top:hover {
+  background: var(--gold);
+  color: var(--black);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+}
+
+/* TESTE - remover depois */
+.back-to-top {
+  display: flex !important;
+  opacity: 0.5;
+}
+.arrow-up {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
 
     /* Responsive Design */
     @media screen and (max-width: 768px) {
@@ -1739,7 +1776,7 @@
     </div>
   </footer>
   
-  <script>
+ <script>
     // Mobile Menu Toggle
     const menuToggle = document.getElementById('menuToggle');
     const navLinks = document.getElementById('navLinks');
@@ -1805,7 +1842,6 @@
       elements.forEach(element => {
         const position = element.getBoundingClientRect();
         
-        // If element is in viewport
         if(position.top < window.innerHeight && position.bottom >= 0) {
           element.style.animationDelay = '0.2s';
           element.style.animationPlayState = 'running';
@@ -1815,27 +1851,54 @@
     
     window.addEventListener('scroll', animateOnScroll);
     window.addEventListener('load', animateOnScroll);
-    // Controle de som do vídeo
-document.addEventListener('DOMContentLoaded', function() {
-  const video = document.getElementById('mainVideo');
-  const soundToggle = document.getElementById('soundToggle');
-  const soundOffIcon = soundToggle.querySelector('.sound-off');
-  const soundOnIcon = soundToggle.querySelector('.sound-on');
-  
-  if (video && soundToggle) {
-    soundToggle.addEventListener('click', function() {
-      if (video.muted) {
-        video.muted = false;
-        soundOffIcon.style.display = 'none';
-        soundOnIcon.style.display = 'block';
-      } else {
-        video.muted = true;
-        soundOffIcon.style.display = 'block';
-        soundOnIcon.style.display = 'none';
+
+    // Controle de som do vídeo + Back to Top
+    document.addEventListener('DOMContentLoaded', function() {
+      const video = document.getElementById('mainVideo');
+      const soundToggle = document.getElementById('soundToggle');
+      
+      if (video && soundToggle) {
+        const soundOffIcon = soundToggle.querySelector('.sound-off');
+        const soundOnIcon = soundToggle.querySelector('.sound-on');
+        
+        soundToggle.addEventListener('click', function() {
+          if (video.muted) {
+            video.muted = false;
+            soundOffIcon.style.display = 'none';
+            soundOnIcon.style.display = 'block';
+          } else {
+            video.muted = true;
+            soundOffIcon.style.display = 'block';
+            soundOnIcon.style.display = 'none';
+          }
+        });
+      }
+
+      // Back to Top Button
+      const backToTopButton = document.getElementById('backToTop');
+      
+      if (backToTopButton) {
+        window.addEventListener('scroll', () => {
+          if (window.pageYOffset > 300) {
+            backToTopButton.classList.add('show');
+          } else {
+            backToTopButton.classList.remove('show');
+          }
+        });
+
+        backToTopButton.addEventListener('click', () => {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        });
       }
     });
-  }
-});
-  </script>
+</script>
+<button id="backToTop" class="back-to-top" title="Voltar ao topo">
+  <svg class="arrow-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M18 15l-6-6-6 6"/>
+  </svg>
+</button>
 </body>
 </html>
