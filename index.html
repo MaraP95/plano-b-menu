@@ -695,6 +695,106 @@
   height: 20px;
   transition: transform 0.3s ease;
 }
+/* FAQ Section */
+#faqs {
+  padding: 80px 0;
+}
+
+.faq-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  background-color: var(--dark-gray);
+  margin-bottom: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.faq-item:hover {
+  transform: translateY(-2px);
+  border-color: rgba(212, 175, 55, 0.4);
+}
+
+.faq-question {
+  padding: 25px 30px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, var(--dark-gray) 0%, rgba(26, 26, 26, 0.8) 100%);
+}
+
+.faq-question h3 {
+  color: var(--white);
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin: 0;
+  font-family: 'Heebo', sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.faq-icon {
+  color: var(--gold);
+  font-size: 1.5rem;
+  font-weight: 300;
+  transition: transform 0.3s ease, color 0.3s ease;
+  min-width: 20px;
+  text-align: center;
+}
+
+.faq-question:hover .faq-icon {
+  color: var(--white);
+  transform: scale(1.1);
+}
+
+.faq-answer {
+  padding: 0 30px;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  background-color: var(--black);
+}
+
+.faq-answer.active {
+  padding: 25px 30px;
+  max-height: 200px;
+}
+
+.faq-answer p {
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.7;
+  margin: 0;
+  font-size: 1rem;
+}
+
+.faq-item.active .faq-icon {
+  transform: rotate(45deg);
+  color: var(--gold);
+}
+
+.faq-item.active .faq-question {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, var(--dark-gray) 100%);
+}
+
+/* FAQ Responsive */
+@media screen and (max-width: 768px) {
+  .faq-question {
+    padding: 20px;
+  }
+  
+  .faq-question h3 {
+    font-size: 1.1rem;
+    padding-right: 15px;
+  }
+  
+  .faq-answer.active {
+    padding: 20px;
+  }
+}
 
     /* Responsive Design */
     @media screen and (max-width: 768px) {
@@ -799,6 +899,19 @@
     width: 20px;
     height: 20px;
   }
+
+   .faq-question {
+    padding: 20px;
+  }
+  
+  .faq-question h3 {
+    font-size: 1.1rem;
+    padding-right: 15px;
+  }
+  
+  .faq-answer.active {
+    padding: 20px;
+  }
     }
     
     @media screen and (max-width: 480px) {
@@ -842,6 +955,8 @@
           <li><a href="#doces">Doces</a></li>
           <li><a href="#bolos">Bolos</a></li>
           <li><a href="#vinhos">Carta de Vinhos</a></li>
+          <li><a href="#faqs">FAQs</a></li>
+
         </ul>
       </nav>
     </div>
@@ -1758,6 +1873,74 @@
       </div>
     </section>
     
+<section id="faqs">
+  <div class="container">
+    <h2 class="section-title">PERGUNTAS FREQUENTES</h2>
+    
+    <div class="faq-container">
+      <div class="faq-item">
+        <div class="faq-question">
+          <h3>O que está incluído no preço do menu?</h3>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          <p>As deslocações necessárias, a compra dos ingredientes e mão-de-obra estão incluídas no preço de cada menu. Não há custos adicionais escondidos.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <h3>Qual é a capacidade do serviço?</h3>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          <p>Este serviço tem uma capacidade mínima de 6 pessoas e máxima de 12. Para grupos entre 12 a 30 pessoas apresentamos uma carta de pequenos eventos que pode ser enviada a pedido.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <h3>Qual é a área de serviço?</h3>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          <p>O nosso serviço funciona num raio de aproximadamente 15km de Espinho. Nas deslocações mais longas é adicionada uma taxa de deslocação.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <h3>O que preciso de disponibilizar em casa?</h3>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          <p>Os pratos e loiças utilizadas nos serviços até 12 pessoas são da nossa responsabilidade, sendo necessário apenas talheres e copos do cliente.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <h3>Como funciona a reserva?</h3>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          <p>Para que o serviço fique reservado o cliente terá que pagar 30% do orçamento do serviço combinado.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <h3>Posso alterar a reserva depois de confirmada?</h3>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-answer">
+          <p>O número de pessoas e os pratos acordados para o serviço não poderão ser modificados depois da reserva completa.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
   </main>
   
   <footer>
@@ -1894,6 +2077,37 @@
         });
       }
     });
+
+
+    // FAQ Functionality
+document.addEventListener('DOMContentLoaded', function() {
+  const faqQuestions = document.querySelectorAll('.faq-question');
+  
+  faqQuestions.forEach(question => {
+    question.addEventListener('click', function() {
+      const faqItem = this.parentNode;
+      const faqAnswer = faqItem.querySelector('.faq-answer');
+      const isActive = faqItem.classList.contains('active');
+      
+      // Close all other FAQ items
+      document.querySelectorAll('.faq-item').forEach(item => {
+        if (item !== faqItem) {
+          item.classList.remove('active');
+          item.querySelector('.faq-answer').classList.remove('active');
+        }
+      });
+      
+      // Toggle current FAQ item
+      if (isActive) {
+        faqItem.classList.remove('active');
+        faqAnswer.classList.remove('active');
+      } else {
+        faqItem.classList.add('active');
+        faqAnswer.classList.add('active');
+      }
+    });
+  });
+});
 </script>
 <button id="backToTop" class="back-to-top" title="Voltar ao topo">
   <svg class="arrow-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
